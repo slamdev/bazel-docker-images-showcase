@@ -1,0 +1,58 @@
+load("@io_bazel_rules_docker//docker/util:run.bzl", "container_run_and_commit")
+load("@io_bazel_rules_docker//container:container.bzl", "container_flatten", "container_image", "container_layer")
+load(":defs.bzl", "install_pkgs")
+
+install_pkgs(
+    name = "packages",
+    packages = [
+        "binutils",
+        "build-essential",
+        "ca-certificates",
+        "curl",
+        "fontconfig",
+        "gcc",
+        "git",
+        "locales",
+        "parallel",
+        "procps",
+        "python3",
+        "tree",
+        "tzdata",
+        "vim",
+        "wget",
+    ],
+)
+
+container_image(
+    name = "intermidiate_image",
+    base = ":packages",
+    env = {
+        "LANG": "en_US.UTF-8",
+        "LANGUAGE": "en_US:en",
+        "LC_ALL": "en_US.UTF-8",
+        "TZ": "UTC",
+        "JAVA_HOME": "/jdk-17.0.2+8",
+    },
+    symlinks = {
+        "/etc/localtime": "/usr/share/zoneinfo/UTC",
+        "/usr/bin/java": "/jdk-17.0.2+8/bin/java",
+    },
+    tars = [
+        "@temurin_jdk_17//file:file",
+    ],
+)
+
+container_run_and_commit(
+    name = "ready_image",
+    commands = [
+        "echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen",
+        "locale-gen en_US.UTF-8",
+        "rm -f /root/.profile",
+    ],
+    image = ":intermidiate_image.tar",
+)
+
+container_image(
+    name = "final_image",
+    base = ":ready_image_commit.tar",
+)

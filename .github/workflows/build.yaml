@@ -22,8 +22,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
-      # uncomment to have docker daemon
-      # - uses: docker-practice/actions-setup-docker@v1
+      - uses: docker-practice/actions-setup-docker@v1
       - uses: bazelbuild/setup-bazelisk@v1
       - uses: actions/cache@v2
         with:
