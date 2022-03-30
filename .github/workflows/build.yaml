@@ -1,0 +1,39 @@
+name: build
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-latest ]
+        bazel: [ "5.1.0", "4.2.2" ]
+        java: [ 11 ]
+    runs-on: ${{ matrix.os }}
+    name: OS ${{ matrix.os }} bazel ${{ matrix.bazel }} java ${{ matrix.java }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java }}
+      # uncomment to have docker daemon
+      # - uses: docker-practice/actions-setup-docker@v1
+      - uses: bazelbuild/setup-bazelisk@v1
+      - uses: actions/cache@v2
+        with:
+          path: "~/.cache/bazel"
+          key: bazel
+      - name: Set Bazel Version ${{ matrix.bazel }}
+        run: |
+          echo ${{ matrix.bazel }} > .bazelversion
+      - name: Build
+        run: bazel build //...
+      # uncomment to run tests
+      #- name: Test
+      #  run: bazel test //...
