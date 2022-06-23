@@ -26,7 +26,7 @@ load("@io_bazel_rules_docker//container:container.bzl", "container_pull")
 
 container_pull(
     name = "debian-stretch",
-    digest = "sha256:05928c5cda32faa00984fb6d5ea565f5e3aed6a006c2a555a8371e4a45e6202a",
+    digest = "sha256:abaa313c7e1dfe16069a1a42fa254014780f165d4fd084844602edbe29915e70",
     registry = "index.docker.io",
     repository = "debian",
     tag = "9.13-slim",
