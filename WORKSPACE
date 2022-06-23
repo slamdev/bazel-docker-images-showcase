@@ -26,10 +26,10 @@ load("@io_bazel_rules_docker//container:container.bzl", "container_pull")
 
 container_pull(
     name = "debian-stretch",
-    digest = "sha256:05928c5cda32faa00984fb6d5ea565f5e3aed6a006c2a555a8371e4a45e6202a",
+    digest = "sha256:f6957458017ec31c4e325a76f39d6323c4c21b0e31572efa006baa927a160891",
     registry = "index.docker.io",
     repository = "debian",
-    tag = "9.13-slim",
+    tag = "11.3-slim",
 )
 
 http_file(
