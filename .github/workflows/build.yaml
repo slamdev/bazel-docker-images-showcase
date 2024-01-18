@@ -24,7 +24,7 @@ jobs:
           java-version: ${{ matrix.java }}
       - uses: docker-practice/actions-setup-docker@v1
       - uses: bazelbuild/setup-bazelisk@v1
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         with:
           path: "~/.cache/bazel"
           key: bazel
