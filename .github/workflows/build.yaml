@@ -23,7 +23,7 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
       - uses: docker-practice/actions-setup-docker@v1
-      - uses: bazelbuild/setup-bazelisk@v1
+      - uses: bazelbuild/setup-bazelisk@v3
       - uses: actions/cache@v2
         with:
           path: "~/.cache/bazel"
